@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">        
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAT201 Student Course Registration System</title>
+<link rel="icon" type="image/ico" href="z-favicon.ico">
+<style>
+    
+    body{
+        margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f2f2f2;
+}
+
+/* Top Header */
+header{
+    background:#ffffff;
+    padding:10px 20px;
+    font-size:14px;
+    color:#666;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+.banner{
+    width:100%;
+    height:400px;
+    position:relative;
+    overflow:hidden;
+    background:#000;
+}
+
+.banner-img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:0.6s ease;
+}
+
+/* 30% blur on hover */
+.banner:hover .banner-img{
+    filter:blur(6px);
+    transform:scale(1.05);
+}
+
+/* Logo */
+.logo{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    width:160px;
+    opacity:0;
+    transition:0.6s ease;
+}
+
+/* Show logo when hovering */
+.banner:hover .logo{
+    opacity:1;
+}
+
+/* Main Section */
+.main{
+    text-align:center;
+    padding:60px 20px;
+    background:#ffffff;
+}
+
+.main h1{
+    font-size:48px;
+    font-weight:300;
+    margin-bottom:40px;
+}
+
+/* Button */
+.btn{
+    background:#e67e22;
+    color:#fff;
+    padding:16px 50px;
+    font-size:20px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn:hover{
+    background:#d35400;
+}
+
+/* Footer */
+.footer{
+    background:#4b0082;
+    color:white;
+    padding:20px 40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.footer h2{
+    margin:0;
+    font-size:26px;
+}
+
+.footer a{
+    color:white;
+    text-decoration:none;
+}
+
+.footer a:hover{
+    text-decoration:underline;
+}
+
+.right{
+    font-size:18px;
+}
+.btm-btn{
+    padding: 10px;
+    font-size: 10px;
+    background:#e67e22;
+    color:#fff;
+}
+.btm-btn:hover{
+    background:#d35400;
+}
+
+</style>
+</head>
+
+<body>
+    
+    <header>
+        3A&G_Team Course Registration System
+    </header>
+    
+    <div class="banner">
+        <img class="banner-img" 
+         src="https://assets.kollegeapply.com/images/1751566790985-1701754230phplxKTEh.jpeg" 
+         alt="University Banner">
+
+    <img class="logo" 
+         src="https://upload.wikimedia.org/wikipedia/en/c/c8/Maharshi_Dayanand_University_logo.png" 
+         alt="MDU Logo">
+</div>
+<div class="main">
+    <h1>Maharshi Dayanand University-Rohtak</h1>
+    <a href="login_page.html"><button class="btn">Welcome</button></a>
+</div>
+
+<div class="footer">
+    <div>
+        <h2>Useful Links</h2>
+        <p ><a class="btm-btn" href="https://mdu.ac.in/" class="btn">mdu official website</a></p>
+    </div>
+    <div class="right">
+        Powered by: 3A&G_Team Course Project
+    </div>
+</div>
+
+</body>
+</html>

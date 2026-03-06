@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAT201 Student Course Registration System</title>
+<link rel="icon" type="image/ico" href="z-favicon.ico">
+<style>
+
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f3f3f3;
+}
+
+/* HEADER */
+/* HEADER WRAPPER */
+.header_box{
+    width:100%;
+    height: 138px;
+    margin-bottom: 30px;
+    position: sticky;
+    top: 9px;
+    background: linear-gradient(135deg,#240b36,#c31432);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* TOPBAR */
+.topbar{
+    max-width:1200px;
+    margin:0 auto;
+    padding:18px 40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:white;
+}
+
+/* TITLE */
+.topbar h1{
+    font-size:26px;
+    font-weight:600;
+    letter-spacing:1px;
+}
+
+/* LOGOUT BUTTON */
+.logout{
+    padding:10px 22px;
+    border:none;
+    border-radius:30px;
+    background:white;
+    color:#c31432;
+    font-weight:bold;
+    cursor:pointer;
+    transition:all 0.3s ease;
+}
+
+/* HOVER EFFECT */
+.logout:hover{
+    background:#f8d7da;
+    transform:scale(1.05);
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .topbar{
+        flex-direction:column;
+        gap:10px;
+        text-align:center;
+    }
+
+    .topbar h1{
+        font-size:20px;
+    }
+}
+
+
+/* MAIN LAYOUT */
+.container{
+    display:flex;
+    min-height:calc(100vh - 138px);
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:250px;         /* it's imp* width after click on dashboard connvert into 70vw and then after clicck on course registration it's normal(250px) */
+    background:linear-gradient(to bottom,#ff7a00,#d6006f,#6a00f4);
+    color:white;
+    padding-top:40px;
+    transition: 0.4s ease;
+}
+.sidebar.expand-dashboard{
+     width: 90vw;      /* after the expend */
+    margin: auto;
+}
+.sidebar h3{
+    padding:20px;
+    margin:0;
+    cursor:pointer;
+}
+#dashboardSection{
+    padding:20px;
+}
+#dashboardSection img{
+    width:100%;
+    border-radius:10px;
+}
+.sidebar h3:hover{
+    background:rgba(252, 252, 252, 0.195);
+}
+.logoimg33{
+    width: 12%;
+}
+.sidebar.expand-dashboard +.content{
+    margin-left: 0;
+}
+/* IMAGE SLIDER */
+
+.slider{
+width:100%;
+max-width:700px;
+margin:auto;
+overflow:hidden;
+position:relative;
+}
+
+.slideImg{
+width:100%;
+height: 500px;
+display:none;
+border-radius:10px;
+}
+/* CONTENT */
+.content{
+    flex:1;
+    padding:50px 80px;
+}
+.content{
+    transition:0.4s ease;
+}
+.hideContent{
+    display:none;
+}
+/* WHITE BOX */
+.box{
+    width:100%;
+    max-width:900px;
+    margin:0 auto;
+    background:white;
+    padding:40px 60px;
+    border-radius:10px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+/* hidden */
+.hidden{
+    display:none;
+}
+
+.logo_img{
+    width:12px;
+    margin-bottom:20px;
+}
+
+.section_space{
+    margin-top:20px;
+}
+
+.banner_img{
+    width:100%;
+    border-radius:10px;
+}
+/* Headings */
+.box h2{
+    margin-bottom:25px;
+    margin-top:30px;
+}
+
+/* Form Groups */
+.form-group{
+    display:flex;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.form-group label{
+    width:200px;
+    font-weight:bold;
+    font-size:16px;
+}
+
+.form-group input,
+.form-group select{
+    flex:1;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+/* Radio Buttons */
+.radio-group{
+    flex:1;
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    text-align:center;
+}
+
+/* .radio-group label{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    cursor:pointer;
+} */
+
+/* Table */
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+table th, table td{
+    border:1px solid #ddd;
+    padding:12px;
+    text-align:center;
+}
+
+table th{
+    background:#f5f5f5;
+}
+
+/* contentBox */
+.contactBox{
+    display:none;
+    padding:15px;
+    font-size:14px;
+    line-height:1.6;
+    background:rgba(255,255,255,0.1);
+}
+
+.contactBox p{
+    margin:5px 0;
+}
+.contactItem{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:8px 0;
+    flex-wrap:wrap;
+}
+
+.contactItem a{
+    color:white;
+    text-decoration:none;
+    word-break:break-word;
+}
+
+.contactItem a:hover{
+    text-decoration:underline;
+}
+
+/* Responsive for mobile */
+@media(max-width:768px){
+
+.sidebar{
+    width:100%;
+}
+
+.contactItem{
+    font-size:13px;
+}
+
+}
+/* Submit Button */
+button{
+    margin-top:25px;
+    padding:12px 35px;
+    background:linear-gradient(135deg,#ff7a00,#d6006f);
+    color:white;
+    border:none;
+    border-radius:30px;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+</style>
+</head>
+<body>
+    <!-- topbar -->
+<div class="header_box">
+<div class="topbar">
+    <h1>Student Course Registration System</h1>
+    <button class="logout" onclick="logout()">Log Out</button>
+</div></div>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+        <h3 onclick="showDashboard()">Dashboard</h3>
+        <div id="dashboardSection" class="hidden">
+    <h2>University Dashboard</h2>
+            <div class="logoimg33">
+    <img src="https://upload.wikimedia.org/wikipedia/en/c/c8/Maharshi_Dayanand_University_logo.png"
+         alt="MDU Logo"
+         class="logo_img"></div>
+            <h1>Maharshi Dayanand University</h1>
+    <p>
+      Maharshi Dayanand University (often abbreviated as MDU) is a state public university located in Rohtak, Haryana, India. It is named after Dayananda Saraswati, a prominent 19th-century Indian social reformer and founder of the Arya Samaj. The university serves as a major higher-education hub for Haryana and surrounding regions, with a very large affiliated-college network.
+    </p>
+    <h1>key Facts</h1>
+    <p><h3>Location:</h3> Near Delhi Bypass, Rohtak, Haryana, India <br>
+
+<h3>Established:</h3> 1976 (as University of Rohtak; renamed 1977) <br>
+
+<h3>Type:</h3> State government university (public)
+
+<h3>Chancellor:</h3> Governor of Haryana (ex officio)
+
+<h3>Current Vice-Chancellor:</h3> Rajbir Singh <br>
+
+<h3>Campus size:</h3> ~600–700 acres, urban, along Delhi Road/Bypass <br>
+
+<h3>Accreditation:</h3> Previously NAAC A+ (2019, RAF), currently under transition to NAAC’s new system, with recent disputes over validity</p>
+<div class="slide">
+    <div class="section_space">
+        <img class="slideImg" src="https://lh3.googleusercontent.com/gps-cs-s/AHVAwerTF0jJg4mrVJ5G0UZ1MVabwxokM72ohbG4obSpw_Z5OilhuCz_7i72gHyqtudhsqqPPDigDwT-9Qmsq_u6fvBbo_nM3bj37WxeSd8F_wz1aQm0gkc7AbbQwAdyCnaLi9h5f_o=s1360-w1360-h1020-rw"
+             alt="MDU Cs & App"
+             class="banner_img">
+    </div>
+<img class="slideImg"  src="https://mdu.ac.in/UpFiles/UpImageFiles/2024/Mar/5_03-13-2024_15-47-34_dcsa%20conference%20banner%202024.jpg" alt="its complete">
+<img class="slideImg"  src="https://images.unsplash.com/photo-1518770660439-4636190af475" alt="simple">
+<img class="slideImg"  src="https://lh3.googleusercontent.com/gps-cs-s/AHVAweqAUzJeZj_z8SbS9p2NQtiSnhA8H-lqZYeVHXbkfIOP1YQ04WYYmxf22hFtTRK04ayOTiDb4ZIlw4vlDTF1gdTTyOcrEfSiqBluSiPD__mBYFeOCPIlYxmUhIcpu4kJf5ROhm-4AA=s1360-w1360-h1020-rw" alt="demo">
+<img  class="slideImg" src="https://lh3.googleusercontent.com/gps-cs-s/AHVAweq4bWR-CmZWtn5bh_NTTG6JPRfHzry0wr8lKiu1ciyAA_AFTLY8Y5mBFVbxPgy0EeqMDHZZOD7ZwFiEa9wo3nZWA2EI04LPULF9R5MVkgbd6UG0DxxfhVm4MlOxBC8ZGxNcNuTUZQ=s1360-w1360-h1020-rw" alt="staff">
+<img class="slideImg"  src="https://mdu.ac.in/UpFiles/UpImageFiles/2019/Jan/National%20Conference%202.jpg" alt="yup">
+<img class="slideImg"  src="https://mdu.ac.in/UpFiles/UpImageFiles/2019/Jan/dcsa%20staff.jpg" alt="old">
+<h1>Department of Computer Science & Applications</h1>
+
+<p>
+The Department of Computer Science & Applications at 
+Maharshi Dayanand University (MDU), Rohtak is one of the 
+important academic departments of the university. 
+It focuses on providing quality education in computer 
+science, software development, and modern information 
+technology. The department aims to develop skilled 
+professionals capable of working in the rapidly evolving 
+IT industry and research fields.
+</p>
+
+<h2>Academic Programs</h2>
+<ul>
+<li>Master of Computer Applications (MCA)</li>
+<li>MSc in Computer Science</li>
+<li>PhD in Computer Science</li>
+<li>Diploma and certificate programs in IT related fields</li>
+</ul>
+
+<h2>Key Features</h2>
+<ul>
+<li>Modern computer laboratories with updated systems</li>
+<li>High-speed internet and networking facilities</li>
+<li>Experienced faculty members and researchers</li>
+<li>Focus on programming, algorithms, and software engineering</li>
+<li>Practical training through projects and seminars</li>
+</ul>
+
+<h2>Research and Development</h2>
+<p>
+The department encourages research in emerging areas 
+such as Artificial Intelligence, Data Science, Cyber Security, 
+Cloud Computing, and Machine Learning. Students and 
+research scholars work on innovative projects and 
+publish research papers in national and international journals.
+</p>
+
+<h2>Career Opportunities</h2>
+<p>
+Graduates from the department get opportunities in 
+software companies, IT firms, government organizations, 
+and research institutions. Many students work as 
+software developers, system analysts, data analysts, 
+network engineers, and IT consultants.
+</p>
+
+</div>
+<button class="proper"><a href="https://mdu.ac.in/Department/DepartmentHome.aspx?Dept=4">visit here</a></button>
+</div>
+<h3 onclick="showForm()">Course Registration</h3>
+<h3 onclick="showContact()">Contact Us</h3>
+<div id="contactBox" class="contactBox">
+
+<div class="contactItem">
+📞 <b>Phone:</b> 
+<a href="tel:+917721214130">+91 7721214130</a>
+</div>
+
+<div class="contactItem">
+📧 <b>Email:</b> 
+<a href="mdu.ac.in">mdu123@gmail.com</a>
+</div>
+
+<div class="contactItem">
+📍 <b>Location:</b> 
+<a href="Delhi rd, near Delhi Bypass, Rohtak, Haryana 124001">
+View on Map
+</a>
+</div>
+
+<div class="contactItem">
+📸 <b>Instagram:</b> 
+<a href="https://www.instagram.com/_ajay____1_/?__pwa=1">
+@mdurohtak
+</a>
+</div>
+
+<div class="contactItem">
+💬 <b>WhatsApp:</b> 
+<a href="https://wa.me/917721214130">
+Chat on WhatsApp
+</a>
+</div>
+
+<div class="contactItem">
+▶ <b>YouTube:</b> 
+<a href="https://www.youtube.com">
+MDU Official Channel
+</a>
+</div>
+
+</div>
+    </div>
+    
+    <!-- CONTENT -->
+     <div class="content">
+        <div id="formSection">
+    <div class="box">
+
+        <h2>Student Information</h2>
+
+        <div class="form-box">
+
+           
+    <h2>Personal Details</h2>
+
+    <!-- Personal Details -->
+
+    <div class="form-group">
+        <label>Name:</label>
+        <input type="text" id="name" placeholder="Enter Name">
+    </div>
+
+    <div class="form-group">
+        <label>Father Name:</label>
+        <input type="text" id="father" placeholder="Enter Father Name">
+    </div>
+
+    <div class="form-group">
+        <!-- Manual + Calendar -->
+        <label for="date">Date of Birth:</label>
+        <input type="date" id="date" name="date">
+    </div>
+
+    <div class="form-group">
+        <label>Course:</label>
+        <input type="text" id="course" placeholder="Enter Course">
+    </div>
+
+    <div class="form-group">
+        <label for="roll">Roll Number:</label>
+        <input type="text" id="roll">
+    </div>
+
+    <div class="form-group">
+        <label>Gender:</label>
+        <div class="radio-group">
+            <label><input type="radio" name="gender" value="Male"> Male</label>
+            <label><input type="radio" name="gender" value="Female"> Female</label>
+            <label><input type="radio" name="gender" value="Other"> Other</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="select">Select Class:</label>
+        <select id="class" aria-label="select">
+            <option value="">-- Select Class --</option>
+            <option>MCA</option>
+            <option>MSc CS</option>
+            <option>MSc IT</option>
+            <option>MTec</option>
+            <option>Other(computer diploma course)</option>
+        </select>
+    </div>
+
+    <h2>School Details</h2>
+
+    <!-- School Details Table -->
+
+    <table>
+        <tr>
+            <th>Qualification</th>
+            <th>School / College</th>
+            <th>Marks (%)</th>
+        </tr>
+
+        <tr>
+            <td>10th Class</td>
+           <td><input type="text" id="school10" name="school10" placeholder="School Name"></td>
+<td><input type="number" id="marks10" placeholder="Marks"></td>
+        </tr>
+
+        <tr>
+            <td>12th Class</td>
+            <td><input type="text" id="school12" name="school12" placeholder="school Name"></td>
+            <td><input type="number" id="marks12" placeholder="Marks"></td>
+        </tr>
+
+        <tr>
+            <td>Graduation</td>
+            <td><input type="text" id="college" name="college" placeholder="college Name"></td>
+            <td><input type="number" id="marksGrad" placeholder="Marks"></td>
+        </tr>
+    </table>
+
+   <button onclick="goToCourseRegister()">Submit</button>
+</div>
+</div>
+</div>
+
+<script>
+    // side bar
+   function showDashboard(){
+
+    let sidebar = document.getElementById("sidebar");
+    let dashboard = document.getElementById("dashboardSection");
+
+    sidebar.classList.add("expand-dashboard");
+    dashboard.style.display = "block";
+}
+
+function showForm(){
+
+    let sidebar = document.getElementById("sidebar");
+    let dashboard = document.getElementById("dashboardSection");
+
+    sidebar.classList.remove("expand-dashboard");
+    dashboard.style.display = "none";
+}
+// ================== LOGOUT ==================
+function logout(){
+    localStorage.removeItem("currentUser");
+    window.location.href = "login_page.html";
+}
+
+// ================== SUBMIT FUNCTION ==================
+function goToCourseRegister(){
+
+    // Get gender
+    let genderRadio = document.querySelector('input[name="gender"]:checked');
+
+    // Create student object
+    let student = {
+        name: document.getElementById("name").value.trim(),
+        father: document.getElementById("father").value.trim(),
+        dob: document.getElementById("date").value,
+        course: document.getElementById("course").value.trim(),
+        roll: document.getElementById("roll").value.trim(),
+        gender: genderRadio ? genderRadio.value : "",
+        className: document.getElementById("class").value,
+        school10: document.getElementById("school10").value.trim(),
+        marks10: document.getElementById("marks10").value.trim(),
+        school12: document.getElementById("school12").value.trim(),
+        marks12: document.getElementById("marks12").value.trim(),
+        college: document.getElementById("college").value.trim(),
+        marksGrad: document.getElementById("marksGrad").value.trim()
+    };
+
+    // ================== VALIDATION ==================
+
+    if(student.name === ""){
+        alert("Please enter Name");
+        return;
+    }
+
+    if(student.roll === ""){
+        alert("Please enter Roll Number");
+        return;
+    }
+
+    if(student.className === ""){
+        alert("Please select Class");
+        return;
+    }
+
+    // ================== SAVE DATA ==================
+
+    localStorage.setItem("studentData", JSON.stringify(student));
+
+    alert("Student Information Saved Successfully!");
+
+    // ================== REDIRECT ==================
+    window.location.href = "registeration.html";
+}
+// IMAGE SLIDER
+
+let slideIndex = 0;
+showSlides();
+
+function showSlides(){
+
+let slides = document.getElementsByClassName("slideImg");
+
+for(let i=0;i<slides.length;i++){
+slides[i].style.display="none";
+}
+
+slideIndex++;
+
+if(slideIndex > slides.length){
+slideIndex = 1;
+}
+
+slides[slideIndex-1].style.display="block";
+
+setTimeout(showSlides,3000); // 3 second change
+}
+// hidden the content
+function showDashboard(){
+
+    let sidebar = document.getElementById("sidebar");
+    let dashboard = document.getElementById("dashboardSection");
+    let content = document.querySelector(".content");
+
+    sidebar.classList.add("expand-dashboard"); // sidebar 70vw
+    dashboard.style.display = "block"; // dashboard show
+    content.classList.add("hideContent"); // right content hide
+}
+// show the form details
+function showForm(){
+
+    let sidebar = document.getElementById("sidebar");
+    let dashboard = document.getElementById("dashboardSection");
+    let content = document.querySelector(".content");
+
+    sidebar.classList.remove("expand-dashboard"); // sidebar normal
+    dashboard.style.display = "none"; // dashboard hide
+    content.classList.remove("hideContent"); // content show
+}
+// show the content list
+function showContact(){
+
+let contact = document.getElementById("contactBox");
+
+if(contact.style.display === "block"){
+    contact.style.display = "none";
+}else{
+    contact.style.display = "block";
+}
+
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CAT201 Student Course Registration System</title>
+        <link rel="icon" type="image/ico" href="favicon.ico">
+        <style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI, Arial, sans-serif;
+}
+
+body{
+    background:#f5f6fa;
+}
+
+/* HEADER */
+
+.header{
+    height:80px;
+    background:linear-gradient(to right,#1f3c88,#0f2027);
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 40px;
+    position: sticky;
+    top: 12;
+}
+
+.header-left{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.header-left img{
+    width:70px;
+}
+
+.header h1{
+    font-size:28px;
+    font-weight:600;
+}
+
+.logout{
+    padding:10px 25px;
+    border:none;
+    border-radius:6px;
+    background:linear-gradient(to right,#7b2ff7,#f107a3);
+    color:white;
+    cursor:pointer;
+}
+/* submit btn */
+.submit-btn{
+    padding:10px 20px;
+    background:#28a745;
+    color:white;
+    border:none;
+    border-radius:5px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.submit-btn:hover{
+    background:#218838;
+}
+/* MAIN LAYOUT */
+
+.container{
+    display:flex;
+    height:calc(100vh - 80px);
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:250px;         /* it's imp* width after click on dashboard connvert into 70vw and then after clicck on course registration it's normal(250px) */
+    background:linear-gradient(to bottom,#ff7a00,#d6006f,#6a00f4);
+    color:white;
+    padding-top:40px;
+    transition: 0.4s ease;
+}
+.sidebar.expand-dashboard{
+        width: 90vw;
+    margin: auto;
+}
+.sidebar h3{
+    padding:20px;
+    margin:0;
+    cursor:pointer;
+}
+#dashboardSection{
+    padding:20px;
+}
+#dashboardSection img{
+    width:100%;
+    border-radius:10px;
+}
+.sidebar h3:hover{
+    background:rgba(252, 252, 252, 0.195);
+}
+.logoimg33{
+    width: 12%;
+}
+.sidebar.expand-dashboard +.content{
+    margin-left: 0;
+}
+/* IMAGE SLIDER */
+
+.slider{
+width:100%;
+max-width:700px;
+margin:auto;
+overflow:hidden;
+position:relative;
+}
+
+.slideImg{
+width:100%;
+height: 500px;
+display:none;
+border-radius:10px;
+}
+/* hidden */
+.hidden{
+display:none;
+}
+
+.contactBox{
+display:none;
+padding:20px;
+}
+
+/* CONTENT */
+
+.content{
+    flex:1;
+    padding:40px;
+    display:flex;
+    gap:40px;
+}
+
+/* LEFT SECTION */
+
+.left{
+    flex:1;
+}
+
+.right{
+    flex:1;
+}
+
+/* BOX */
+
+.box{
+    background:white;
+    padding:25px;
+    border-radius:8px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.08);
+    margin-bottom:30px;
+}
+
+.box h2{
+    margin-bottom:15px;
+}
+
+/* SEARCH */
+
+.search-wrapper{
+    display:flex;
+    align-items:center;
+    margin-bottom:10px;
+}
+
+.search-wrapper input{
+    flex:1;
+    padding:8px;
+    border:1px solid #ccc;
+    border-radius:4px;
+}
+
+/* COURSE LIST */
+
+.course-list{
+    max-height:300px;
+    overflow-y:auto;
+    transition:0.3s ease;
+}
+.course-item{
+    padding:10px;
+    border-bottom:1px solid #eee;
+    cursor:pointer;
+}
+
+.course-item:hover{
+    background:#f1f1f1;
+}
+
+.course-item.selected{
+    background:#0078d7;
+    color:white;
+}
+
+/* REGISTERED COURSES */
+
+.registered-list{
+    border:2px solid #1f88c0;
+    height:500px;
+    overflow-y:auto;
+    padding:10px;
+}
+
+.registered-item{
+    padding:10px;
+    border-bottom:1px solid #ddd;
+}
+
+.registered-item{
+    padding:10px;
+    border-bottom:1px solid #ddd;
+    cursor:pointer;
+}
+
+.registered-item.active{
+    background:#0078d7;
+    color:white;
+}
+
+/* BUTTONS */
+
+.btn{
+    margin-top:10px;
+    padding:8px 20px;
+    border:none;
+    border-radius:5px;
+    background:#f39c12;
+    color:white;
+    cursor:pointer;
+}
+#courseDetails{
+    background-color: wheat;
+}
+.btn-danger{
+    background:#e67e22;
+}
+.btn:hover{
+    background-color:#dfc59c ;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+    .content{
+        flex-direction:column;
+    }
+    
+}
+/* final page */
+#finalPage{
+    display: flex;
+padding: 58px 28px;
+/* color: green; */
+margin: auto;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+align-content: center;
+flex-wrap: nowrap;
+}
+#lastTable{
+     border:1;
+      border-collapse:collapse; 
+      width:100%;
+      border: 1px solid black;
+      border-collapse: collapse;
+}
+</style>
+    </head>
+
+  <body>
+
+        <div  class="header">
+    <div  class="header-left">
+        <img src="https://upload.wikimedia.org/wikipedia/en/c/c8/Maharshi_Dayanand_University_logo.png" alt="logoimg">
+        <h1>Student Course Registration System</h1>
+    </div>
+
+    <button  class="logout" onclick="logout()">Log Out</button>
+</div>
+
+<div  class="container">
+             <!-- SIDEBAR -->
+    <div  class="sidebar" id="sidebar">
+        <h3 onclick="showDashboard()">Dashboard</h3>
+        <div id="dashboardSection" class="hidden">
+    <h2>University Dashboard</h2>
+            <div  class="logoimg33">
+    <img src="https://upload.wikimedia.org/wikipedia/en/c/c8/Maharshi_Dayanand_University_logo.png"
+         alt="MDU Logo"
+         class="logo_img"></div>
+            <h1>Maharshi Dayanand University</h1>
+    <p>
+      Maharshi Dayanand University (often abbreviated as MDU) is a state public university located in Rohtak, Haryana, India. It is named after Dayananda Saraswati, a prominent 19th-century Indian social reformer and founder of the Arya Samaj. The university serves as a major higher-education hub for Haryana and surrounding regions, with a very large affiliated-college network.
+    </p>
+    <h1>key Facts</h1>
+    <p><h3>Location:</h3> Near Delhi Bypass, Rohtak, Haryana, India <br>
+
+<h3>Established:</h3> 1976 (as University of Rohtak; renamed 1977) <br>
+
+<h3>Type:</h3> State government university (public)
+
+<h3>Chancellor:</h3> Governor of Haryana (ex officio)
+
+<h3>Current Vice-Chancellor:</h3> Rajbir Singh <br>
+
+<h3>Campus size:</h3> ~600–700 acres, urban, along Delhi Road/Bypass <br>
+
+<h3>Accreditation:</h3> Previously NAAC A+ (2019, RAF), currently under transition to NAAC’s new system, with recent disputes over validity</p>
+<div class="slide">
+    <div class="section_space">
+        <img class="slideImg" src="https://lh3.googleusercontent.com/gps-cs-s/AHVAwerTF0jJg4mrVJ5G0UZ1MVabwxokM72ohbG4obSpw_Z5OilhuCz_7i72gHyqtudhsqqPPDigDwT-9Qmsq_u6fvBbo_nM3bj37WxeSd8F_wz1aQm0gkc7AbbQwAdyCnaLi9h5f_o=s1360-w1360-h1020-rw"
+             alt="MDU Cs & App"
+             class="banner_img">
+    </div>
+<img class="slideImg"  src="https://mdu.ac.in/UpFiles/UpImageFiles/2024/Mar/5_03-13-2024_15-47-34_dcsa%20conference%20banner%202024.jpg" alt="its complete">
+<imgclass="slideImg"  src="https://images.unsplash.com/photo-1518770660439-4636190af475" alt="simple">
+<img class="slideImg"  src="https://lh3.googleusercontent.com/gps-cs-s/AHVAweqAUzJeZj_z8SbS9p2NQtiSnhA8H-lqZYeVHXbkfIOP1YQ04WYYmxf22hFtTRK04ayOTiDb4ZIlw4vlDTF1gdTTyOcrEfSiqBluSiPD__mBYFeOCPIlYxmUhIcpu4kJf5ROhm-4AA=s1360-w1360-h1020-rw" alt="demo">
+<img   class="slideImg" src="https://lh3.googleusercontent.com/gps-cs-s/AHVAweq4bWR-CmZWtn5bh_NTTG6JPRfHzry0wr8lKiu1ciyAA_AFTLY8Y5mBFVbxPgy0EeqMDHZZOD7ZwFiEa9wo3nZWA2EI04LPULF9R5MVkgbd6UG0DxxfhVm4MlOxBC8ZGxNcNuTUZQ=s1360-w1360-h1020-rw" alt="staff">
+<img  class="slideImg"  src="https://mdu.ac.in/UpFiles/UpImageFiles/2019/Jan/National%20Conference%202.jpg" alt="yup">
+<img  class="slideImg"  src="https://mdu.ac.in/UpFiles/UpImageFiles/2019/Jan/dcsa%20staff.jpg" alt="old">
+<h1>Department of Computer Science & Applications</h1>
+
+<p>
+The Department of Computer Science & Applications at 
+Maharshi Dayanand University (MDU), Rohtak is one of the 
+important academic departments of the university. 
+It focuses on providing quality education in computer 
+science, software development, and modern information 
+technology. The department aims to develop skilled 
+professionals capable of working in the rapidly evolving 
+IT industry and research fields.
+</p>
+
+<h2>Academic Programs</h2>
+<ul>
+<li>Master of Computer Applications (MCA)</li>
+<li>MSc in Computer Science</li>
+<li>PhD in Computer Science</li>
+<li>Diploma and certificate programs in IT related fields</li>
+</ul>
+
+<h2>Key Features</h2>
+<ul>
+<li>Modern computer laboratories with updated systems</li>
+<li>High-speed internet and networking facilities</li>
+<li>Experienced faculty members and researchers</li>
+<li>Focus on programming, algorithms, and software engineering</li>
+<li>Practical training through projects and seminars</li>
+</ul>
+
+<h2>Research and Development</h2>
+<p>
+The department encourages research in emerging areas 
+such as Artificial Intelligence, Data Science, Cyber Security, 
+Cloud Computing, and Machine Learning. Students and 
+research scholars work on innovative projects and 
+publish research papers in national and international journals.
+</p>
+
+<h2>Career Opportunities</h2>
+<p>
+Graduates from the department get opportunities in 
+software companies, IT firms, government organizations, 
+and research institutions. Many students work as 
+software developers, system analysts, data analysts, 
+network engineers, and IT consultants.
+</p>
+
+</div>
+<button class="proper"><a href="https://mdu.ac.in/Department/DepartmentHome.aspx?Dept=4">visit here</a></button>
+</div>
+<h3 onclick="showForm()">Course Registration</h3>
+<h3 onclick="showContact()">Contact Us</h3>
+<div id="contactBox" class="contactBox">
+
+<div  class="contactItem">
+📞 <b>Phone:</b> 
+<a href="tel:+917721214130">+91 7721214130</a>
+</div>
+
+<div class="contactItem">
+📧 <b>Email:</b> 
+<a href="mdu.ac.in">mdu123@gmail.com</a>
+</div>
+
+<div  class="contactItem">
+📍 <b>Location:</b> 
+<a href="Delhi rd, near Delhi Bypass, Rohtak, Haryana 124001">
+View on Map
+</a>
+</div>
+
+<div class="contactItem">
+📸 <b>Instagram:</b> 
+<a href="https://www.instagram.com/_ajay____1_/?__pwa=1" >
+@mdurohtak
+</a>
+</div>
+
+<div  class="contactItem">
+💬 <b>WhatsApp:</b> 
+<a href="https://wa.me/917721214130" >
+Chat on WhatsApp
+</a>
+</div>
+
+<div  class="contactItem">
+▶ <b>YouTube:</b> 
+<a href="https://www.youtube.com"  alt="check img">
+MDU Official Channel
+</a>
+</div>
+
+</div>
+    </div>
+
+            <!-- CONTENT -->
+            <div class="content">
+
+                <!-- LEFT -->
+                <div  class="left">
+
+                    <div class="box">
+                        <h2>Course Information</h2>
+
+                        <div class="search-wrapper">
+                            <input type="text" id="searchCourse"
+                                placeholder="Search Course">
+                        </div>
+
+                        <div  class="course-list" id="courseList">
+                            <div onclick="showCourse('pop')" class="course-item">CPT111 - PRINCIPLES OF
+                                PROGRAMMING</div>
+                            <div onclick="showCourse('ds')" class="course-item">CPT112 - DISCRETE
+                                STRUCTURES</div>
+                            <div onclick="showCourse('co')" class="course-item">CST131 - COMPUTER
+                                ORGANISATIONS</div>
+                            <div onclick="showCourse('dsa')" class="course-item">CPT113 - DATA STRUCTURES</div>
+                            <div onclick="showCourse('fose')" class="course-item">CSE241 - FOUNDATION OF
+                                SOFTWARE ENGINEERING</div>
+                            <div onclick="showCourse('la')" class="course-item">MAT111 - LINEAR
+                                ALGEBRA</div>
+                            <div onclick="showCourse('oops')" class="course-item">CPT211 - OBJECT ORIENTED
+                                PROGRAMMING</div>
+                            <div onclick="showCourse('dbs')" class="course-item">CPT212 - DATABASE
+                                SYSTEMS</div>
+                            <div onclick="showCourse('os')" class="course-item">CPT213 - OPERATING
+                                SYSTEMS</div>
+                            <div onclick="showCourse('cn')" class="course-item">CPT214 - COMPUTER
+                                NETWORKS</div>
+                            <div onclick="showCourse('toc')" class="course-item">CPT215 - THEORY OF
+                                COMPUTATION</div>
+                            <div onclick="showCourse('se')" class="course-item">CPT216 - SOFTWARE
+                                ENGINEERING</div>
+                            <div onclick="showCourse('wt')" class="course-item">CPT217 - WEB
+                                TECHNOLOGY</div>
+                            <div onclick="showCourse('ma')" class="course-item">CPT218 - MOBILE APPLICATION
+                                DEVELOPMENT</div>
+                            <div onclick="showCourse('ai')" class="course-item">CPT219 - ARTIFICIAL
+                                INTELLIGENCE</div>
+                            <div onclick="showCourse('ml')" class="course-item">CPT221 - MACHINE
+                                LEARNING</div>
+                            <div onclick="showCourse('dm')" class="course-item">CPT222 - DATA MINING</div>
+                            <div onclick="showCourse('cc')" class="course-item">CPT223 - CLOUD
+                                COMPUTING</div>
+                            <div onclick="showCourse('cs')" class="course-item">CPT224 - CYBER
+                                SECURITY</div>
+                            <div onclick="showCourse('dip')" class="course-item">CPT225 - DIGITAL IMAGE
+                                PROCESSING</div>
+                            <div onclick="showCourse('cg')" class="course-item">CPT226 - COMPUTER
+                                GRAPHICS</div>
+                            <div onclick="showCourse('hci')" class="course-item">CPT227 - HUMAN COMPUTER
+                                INTERACTION</div>
+                            <div onclick="showCourse('bga')" class="course-item">CPT228 - BIG DATA
+                                ANALYTICS</div>
+                            <div onclick="showCourse('iot')" class="course-item">CPT229 - INTERNET OF
+                                THINGS</div>
+                            <div onclick="showCourse('adb')" class="course-item">CPT231 - ADVANCED DATABASE
+                                SYSTEMS</div>
+                            <div onclick="showCourse('pc')" class="course-item">CPT232 - PARALLEL
+                                COMPUTING</div>
+                            <div onclick="showCourse('dis')" class="course-item">CPT233 - DISTRIBUTED
+                                SYSTEMS</div>
+                            <div onclick="showCourse('bct')" class="course-item">CPT234 - BLOCKCHAIN
+                                TECHNOLOGY</div>
+                            <div onclick="showCourse('ir')" class="course-item">CPT235 - INFORMATION
+                                RETRIEVAL</div>
+                            <div onclick="showCourse('spm')" class="course-item">CPT236 - SOFTWARE PROJECT
+                                MANAGEMENT</div>
+                            <div onclick="showCourse('cms')" class="course-item">CPT237 - COMPUTER
+                                SECURITY</div>
+                            <div onclick="showCourse('gd')" class="course-item">CPT238 - GAME
+                                DEVELOPMENT</div>
+                            <div onclick="showCourse('es')" class="course-item">CPT239 - EMBEDDED
+                                SYSTEMS</div>
+                            <div onclick="showCourse('cmd')" class="course-item">CPT241 - COMPILER
+                                DESIGN</div>
+                            <div onclick="showCourse('nlp')" class="course-item">CPT242 - NATURAL LANGUAGE
+                                PROCESSING</div>
+                            <div onclick="showCourse('rob')" class="course-item">CPT243 - ROBOTICS</div>
+                            <div onclick="showCourse('qc')" class="course-item">CPT244 - QUANTUM
+                                COMPUTING</div>
+                            <div onclick="showCourse('aa')" class="course-item">CPT245 - ADVANCED
+                                ALGORITHMS</div>
+                            <div onclick="showCourse('ns')" class="course-item">CPT246 - NETWORK
+                                SECURITY</div>
+                            <div onclick="showCourse('df')" class="course-item">CPT247 - DIGITAL
+                                FORENSICS</div>
+                            <div onclick="showCourse('st')" class="course-item">CPT248 - SOFTWARE TESTING
+                                AND QUALITY ASSURANCE</div>
+                        </div>
+
+                        <button  class="btn" onclick="addCourse()">Add
+                            Course</button>
+                    </div>
+
+                   <div id="courseDetails" style="margin-top:20px; padding:15px; border:1px solid #ccc;">
+    <h2>Course Details</h2>
+
+    <p id="courseName">Course Name: </p>
+    <p id="courseTime">Timing: </p>
+    <p id="courseTeach">Teaching Method: </p>
+    <p id="courseFee">Fees: </p>
+</div>
+
+                </div>
+
+                <!-- RIGHT -->
+                <div  class="right">
+
+                    <div class="box">
+                        <h2>Registered Course</h2>
+
+                        <div  class="registered-list" id="registeredList"></div>
+
+                        <button class="btn btn-danger"
+                            onclick="removeSelected()">Remove Course</button>
+                             <button class="submit-btn" onclick="showFinalPage()"> Fees Submit</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- FINAL STUDENT DETAILS PAGE -->
+<div id="finalPage">
+
+<h2>Student Registration Summary</h2>
+
+<table id="lastTable">
+<thead>
+<tr>
+<th>Course Name</th>
+<th>Fee</th>
+</tr>
+</thead>
+
+<tbody id="summaryTable"></tbody>
+
+<tfoot>
+<tr>
+<th style="color: green;">Total Amount</th>
+<th style="color: green;" id="totalFee"></th>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+        <script>
+
+let selectedCourse = null;
+let registeredCourses = [];
+let activeRegistered = null;
+
+// SELECT COURSE FROM LEFT PANEL
+document.querySelectorAll(".course-item").forEach(item=>{
+    item.addEventListener("click",function(){
+
+        document.querySelectorAll(".course-item")
+            .forEach(i=>i.classList.remove("selected"));
+
+        this.classList.add("selected");
+        selectedCourse = this.innerText;
+    });
+});
+// for search
+document.getElementById("searchCourse").addEventListener("input", function(){
+
+    let keyword = this.value.toLowerCase().trim();
+    let courses = document.querySelectorAll(".course-item");
+
+    courses.forEach(course => {
+
+        let text = course.innerText.toLowerCase();
+
+        if(text.includes(keyword)){
+            course.style.display = "block";
+        }else{
+            course.style.display = "none";
+        }
+
+    });
+
+});
+// ADD COURSE
+function addCourse(){
+
+    if(!selectedCourse){
+        alert("Please select a course first!");
+        return;
+    }
+
+    // STRICT duplicate check
+    if(registeredCourses.indexOf(selectedCourse) !== -1){
+        alert("This course is already registered!");
+        return;
+    }
+
+    registeredCourses.push(selectedCourse);
+
+    // Clear selection after adding
+    selectedCourse = null;
+    document.querySelectorAll(".course-item")
+        .forEach(i=>i.classList.remove("selected"));
+
+    renderRegisteredCourses();
+}
+// RENDER REGISTERED COURSES
+function renderRegisteredCourses(){
+
+    const container = document.getElementById("registeredList");
+    container.innerHTML = "";
+
+    registeredCourses.forEach(course=>{
+
+        const div = document.createElement("div");
+        div.className = "registered-item";
+        div.innerText = course;
+
+        // Click to activate
+        div.onclick = function(){
+
+            document.querySelectorAll(".registered-item")
+                .forEach(i=>i.classList.remove("active"));
+
+            this.classList.add("active");
+            activeRegistered = course;
+        };
+
+        container.appendChild(div);
+    });
+}
+
+// REMOVE ONLY USING BUTTON
+function removeSelected(){
+
+    if(!activeRegistered){
+        alert("Please select a registered course to remove!");
+        return;
+    }
+
+    registeredCourses =
+        registeredCourses.filter(course => course !== activeRegistered);
+
+    activeRegistered = null;
+    renderRegisteredCourses();
+}
+
+// DASHBOARD OPEN
+function showDashboard(){
+
+let sidebar = document.getElementById("sidebar");
+let dashboard = document.getElementById("dashboardSection");
+let content = document.querySelector(".content");
+
+sidebar.classList.add("expand-dashboard");
+dashboard.style.display = "block";
+content.style.display = "none";
+
+}
+
+// COURSE REGISTRATION OPEN
+function showForm(){
+
+let sidebar = document.getElementById("sidebar");
+let dashboard = document.getElementById("dashboardSection");
+let content = document.querySelector(".content");
+
+sidebar.classList.remove("expand-dashboard");
+dashboard.style.display = "none";
+content.style.display = "flex";
+
+}
+
+// CONTACT OPEN
+function showContact(){
+
+let sidebar = document.getElementById("sidebar");
+let dashboard = document.getElementById("dashboardSection");
+let content = document.querySelector(".content");
+let contact = document.getElementById("contactBox");
+
+sidebar.classList.remove("expand-dashboard");
+dashboard.style.display = "none";
+content.style.display = "none";
+
+contact.style.display = "block";
+}
+// logout
+function logout(){
+
+    alert("Logged Out Successfully");
+
+    // clear login data
+    localStorage.clear();
+
+    // redirect to login page
+    window.location.href = "login_page.html";
+
+}
+// show course details
+
+function showCourse(course){
+
+    if(course=="pop"){
+        document.getElementById("courseName").innerHTML="Course: CPT111 - Principles of Programming";
+        document.getElementById("courseTime").innerHTML="Timing: 9:00 AM - 10:30 AM";
+        document.getElementById("courseTeach").innerHTML="Teaching: C Programming + Lab Practice";
+        document.getElementById("courseFee").innerHTML="Fee: ₹2500";
+    }
+
+    else if(course=="ds"){
+        document.getElementById("courseName").innerHTML="Course: CPT112 - Discrete Structures";
+        document.getElementById("courseTime").innerHTML="Timing: 10:30 AM - 12:00 PM";
+        document.getElementById("courseTeach").innerHTML="Teaching: Mathematical Concepts + Logic";
+        document.getElementById("courseFee").innerHTML="Fee: ₹2200";
+    }
+
+    else if(course=="co"){
+        document.getElementById("courseName").innerHTML="Course: CST131 - Computer Organisation";
+        document.getElementById("courseTime").innerHTML="Timing: 12:00 PM - 1:30 PM";
+        document.getElementById("courseTeach").innerHTML="Teaching: Hardware Concepts + Architecture";
+        document.getElementById("courseFee").innerHTML="Fee: ₹2600";
+    }
+
+    else if(course=="fose"){
+document.getElementById("courseName").innerHTML="Course: CSE241 - Foundation of Software Engineering";
+document.getElementById("courseTime").innerHTML="Timing: 1:30 PM - 3:00 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Software Development Life Cycle";
+document.getElementById("courseFee").innerHTML="Fee: ₹2700";
+}
+
+else if(course=="la"){
+document.getElementById("courseName").innerHTML="Course: MAT111 - Linear Algebra";
+document.getElementById("courseTime").innerHTML="Timing: 9:30 AM - 11:00 AM";
+document.getElementById("courseTeach").innerHTML="Teaching: Matrices, Vectors, Linear Equations";
+document.getElementById("courseFee").innerHTML="Fee: ₹2300";
+}
+
+else if(course=="oops"){
+document.getElementById("courseName").innerHTML="Course: CPT211 - Object Oriented Programming";
+document.getElementById("courseTime").innerHTML="Timing: 11:00 AM - 12:30 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Classes, Objects, Inheritance in Java/C++";
+document.getElementById("courseFee").innerHTML="Fee: ₹2800";
+}
+
+else if(course=="dbs"){
+document.getElementById("courseName").innerHTML="Course: CPT212 - Database Systems";
+document.getElementById("courseTime").innerHTML="Timing: 2:00 PM - 3:30 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: SQL, Database Design";
+document.getElementById("courseFee").innerHTML="Fee: ₹3000";
+}
+
+else if(course=="os"){
+document.getElementById("courseName").innerHTML="Course: CPT213 - Operating Systems";
+document.getElementById("courseTime").innerHTML="Timing: 3:30 PM - 5:00 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Process Management, Memory Management";
+document.getElementById("courseFee").innerHTML="Fee: ₹3100";
+}
+    else if(course=="ai"){
+        document.getElementById("courseName").innerHTML="Course: CPT219 - Artificial Intelligence";
+        document.getElementById("courseTime").innerHTML="Timing: 3:30 PM - 5:00 PM";
+        document.getElementById("courseTeach").innerHTML="Teaching: AI Algorithms + Python Projects";
+        document.getElementById("courseFee").innerHTML="Fee: ₹3500";
+    }
+    else if(course=="wt"){
+document.getElementById("courseName").innerHTML="Course: CPT217 - Web Technology";
+document.getElementById("courseTime").innerHTML="Timing: 10:00 AM - 11:30 AM";
+document.getElementById("courseTeach").innerHTML="Teaching: HTML, CSS, JavaScript, Web Projects";
+document.getElementById("courseFee").innerHTML="Fee: ₹2800";
+}
+
+else if(course=="ml"){
+document.getElementById("courseName").innerHTML="Course: CPT221 - Machine Learning";
+document.getElementById("courseTime").innerHTML="Timing: 1:00 PM - 2:30 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Python, ML Algorithms, Data Models";
+document.getElementById("courseFee").innerHTML="Fee: ₹4000";
+}
+
+else if(course=="dm"){
+document.getElementById("courseName").innerHTML="Course: CPT222 - Data Mining";
+document.getElementById("courseTime").innerHTML="Timing: 11:30 AM - 1:00 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Data Analysis and Mining Techniques";
+document.getElementById("courseFee").innerHTML="Fee: ₹3200";
+}
+
+else if(course=="cc"){
+document.getElementById("courseName").innerHTML="Course: CPT223 - Cloud Computing";
+document.getElementById("courseTime").innerHTML="Timing: 3:00 PM - 4:30 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: AWS, Cloud Services, Virtualization";
+document.getElementById("courseFee").innerHTML="Fee: ₹3500";
+}
+
+else if(course=="cs"){
+document.getElementById("courseName").innerHTML="Course: CPT224 - Cyber Security";
+document.getElementById("courseTime").innerHTML="Timing: 9:30 AM - 11:00 AM";
+document.getElementById("courseTeach").innerHTML="Teaching: Network Security, Ethical Hacking";
+document.getElementById("courseFee").innerHTML="Fee: ₹3700";
+}
+
+else if(course=="iot"){
+document.getElementById("courseName").innerHTML="Course: CPT229 - Internet of Things";
+document.getElementById("courseTime").innerHTML="Timing: 2:30 PM - 4:00 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Sensors, IoT Devices, Smart Systems";
+document.getElementById("courseFee").innerHTML="Fee: ₹3300";
+}
+
+else if(course=="nlp"){
+document.getElementById("courseName").innerHTML="Course: CPT242 - Natural Language Processing";
+document.getElementById("courseTime").innerHTML="Timing: 12:00 PM - 1:30 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Text Processing, AI Language Models";
+document.getElementById("courseFee").innerHTML="Fee: ₹4200";
+}
+
+else if(course=="rob"){
+document.getElementById("courseName").innerHTML="Course: CPT243 - Robotics";
+document.getElementById("courseTime").innerHTML="Timing: 3:30 PM - 5:00 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Robot Design, Automation, Sensors";
+document.getElementById("courseFee").innerHTML="Fee: ₹4500";
+}
+else if(course=="adb"){
+document.getElementById("courseName").innerHTML="Course: CPT231 - Advanced Database Systems";
+document.getElementById("courseTime").innerHTML="Timing: 10:30 AM - 12:00 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Advanced SQL, Database Optimization";
+document.getElementById("courseFee").innerHTML="Fee: ₹3500";
+}
+
+else if(course=="pc"){
+document.getElementById("courseName").innerHTML="Course: CPT232 - Parallel Computing";
+document.getElementById("courseTime").innerHTML="Timing: 1:30 PM - 3:00 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Multi-core Processing, Parallel Algorithms";
+document.getElementById("courseFee").innerHTML="Fee: ₹3600";
+}
+
+else if(course=="dis"){
+document.getElementById("courseName").innerHTML="Course: CPT233 - Distributed Systems";
+document.getElementById("courseTime").innerHTML="Timing: 9:30 AM - 11:00 AM";
+document.getElementById("courseTeach").innerHTML="Teaching: Distributed Architecture, Cloud Systems";
+document.getElementById("courseFee").innerHTML="Fee: ₹3400";
+}
+
+else if(course=="bct"){
+document.getElementById("courseName").innerHTML="Course: CPT234 - Blockchain Technology";
+document.getElementById("courseTime").innerHTML="Timing: 2:00 PM - 3:30 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Blockchain, Cryptocurrency Concepts";
+document.getElementById("courseFee").innerHTML="Fee: ₹3900";
+}
+
+else if(course=="ir"){
+document.getElementById("courseName").innerHTML="Course: CPT235 - Information Retrieval";
+document.getElementById("courseTime").innerHTML="Timing: 11:00 AM - 12:30 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Search Engines, Data Retrieval Methods";
+document.getElementById("courseFee").innerHTML="Fee: ₹3100";
+}
+
+else if(course=="spm"){
+document.getElementById("courseName").innerHTML="Course: CPT236 - Software Project Management";
+document.getElementById("courseTime").innerHTML="Timing: 3:00 PM - 4:30 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Project Planning, Agile Methods";
+document.getElementById("courseFee").innerHTML="Fee: ₹3000";
+}
+
+else if(course=="cms"){
+document.getElementById("courseName").innerHTML="Course: CPT237 - Computer Security";
+document.getElementById("courseTime").innerHTML="Timing: 9:00 AM - 10:30 AM";
+document.getElementById("courseTeach").innerHTML="Teaching: Security Systems, Encryption Basics";
+document.getElementById("courseFee").innerHTML="Fee: ₹3500";
+}
+
+else if(course=="gd"){
+document.getElementById("courseName").innerHTML="Course: CPT238 - Game Development";
+document.getElementById("courseTime").innerHTML="Timing: 4:00 PM - 5:30 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Game Design, Unity Engine Basics";
+document.getElementById("courseFee").innerHTML="Fee: ₹4200";
+}
+
+else if(course=="es"){
+document.getElementById("courseName").innerHTML="Course: CPT239 - Embedded Systems";
+document.getElementById("courseTime").innerHTML="Timing: 12:30 PM - 2:00 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Microcontrollers, Hardware Programming";
+document.getElementById("courseFee").innerHTML="Fee: ₹3700";
+}
+else if(course=="cmd"){
+document.getElementById("courseName").innerHTML="Course: CPT241 - Compiler Design";
+document.getElementById("courseTime").innerHTML="Timing: 10:00 AM - 11:30 AM";
+document.getElementById("courseTeach").innerHTML="Teaching: Lexical Analysis, Syntax Parsing, Code Generation";
+document.getElementById("courseFee").innerHTML="Fee: ₹3800";
+}
+
+else if(course=="nlp"){
+document.getElementById("courseName").innerHTML="Course: CPT242 - Natural Language Processing";
+document.getElementById("courseTime").innerHTML="Timing: 11:30 AM - 1:00 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Text Processing, AI Language Models";
+document.getElementById("courseFee").innerHTML="Fee: ₹4200";
+}
+
+else if(course=="rob"){
+document.getElementById("courseName").innerHTML="Course: CPT243 - Robotics";
+document.getElementById("courseTime").innerHTML="Timing: 2:00 PM - 3:30 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Robot Design, Automation Systems";
+document.getElementById("courseFee").innerHTML="Fee: ₹4500";
+}
+
+else if(course=="qc"){
+document.getElementById("courseName").innerHTML="Course: CPT244 - Quantum Computing";
+document.getElementById("courseTime").innerHTML="Timing: 3:30 PM - 5:00 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Quantum Algorithms and Qubits";
+document.getElementById("courseFee").innerHTML="Fee: ₹4700";
+}
+
+else if(course=="aa"){
+document.getElementById("courseName").innerHTML="Course: CPT245 - Advanced Algorithms";
+document.getElementById("courseTime").innerHTML="Timing: 9:30 AM - 11:00 AM";
+document.getElementById("courseTeach").innerHTML="Teaching: Optimization and Complex Algorithms";
+document.getElementById("courseFee").innerHTML="Fee: ₹3900";
+}
+
+else if(course=="ns"){
+document.getElementById("courseName").innerHTML="Course: CPT246 - Network Security";
+document.getElementById("courseTime").innerHTML="Timing: 1:00 PM - 2:30 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Firewall, Encryption, Secure Networks";
+document.getElementById("courseFee").innerHTML="Fee: ₹3600";
+}
+
+else if(course=="df"){
+document.getElementById("courseName").innerHTML="Course: CPT247 - Digital Forensics";
+document.getElementById("courseTime").innerHTML="Timing: 11:00 AM - 12:30 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Cyber Crime Investigation and Data Recovery";
+document.getElementById("courseFee").innerHTML="Fee: ₹4000";
+}
+
+else if(course=="st"){
+document.getElementById("courseName").innerHTML="Course: CPT248 - Software Testing and Quality Assurance";
+document.getElementById("courseTime").innerHTML="Timing: 2:30 PM - 4:00 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Testing Methods, Automation Testing";
+document.getElementById("courseFee").innerHTML="Fee: ₹3200";
+}
+else if(course=="dip"){
+document.getElementById("courseName").innerHTML="Course: 25-DIGITAL IMAGE PROCESSING";
+document.getElementById("courseTime").innerHTML="Timing: 1:30 PM - 2:00 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Arrays, Linked List, Stack, Queue";
+document.getElementById("courseFee").innerHTML="Fee: ₹3100";
+}
+else if(course=="cg"){
+document.getElementById("courseName").innerHTML="CPT226 - COMPUTER GRAPHICS";
+document.getElementById("courseTime").innerHTML="Timing: 2:30 PM - 4:00 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Arrays, Linked List, Stack, Queue";
+document.getElementById("courseFee").innerHTML="Fee: ₹3000";
+}
+else if(course=="dsa"){
+document.getElementById("courseName").innerHTML="Course: CPT113 - Data Structures";
+document.getElementById("courseTime").innerHTML="Timing: 12:30 PM - 2:00 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Arrays, Linked List, Stack, Queue";
+document.getElementById("courseFee").innerHTML="Fee: ₹2600";
+}
+else if(course=="hci"){
+document.getElementById("courseName").innerHTML="Course: CPT226 - HUMAN COMPUTER INTERACTION";
+document.getElementById("courseTime").innerHTML="Timing: 12:30 PM - 2:00 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Arrays, Linked List, Stack, Queue";
+document.getElementById("courseFee").innerHTML="Fee: ₹2800";
+}
+else if(course=="ds"){
+document.getElementById("courseName").innerHTML="Course: CPT113 - Data Structures";
+document.getElementById("courseTime").innerHTML="Timing: 12:30 PM - 2:00 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Arrays, Linked List, Stack, Queue";
+document.getElementById("courseFee").innerHTML="Fee: ₹2600";
+}
+else if(course=="bda"){
+document.getElementById("courseName").innerHTML="Course: CPT228 - BIG DATA ANALYTICS";
+document.getElementById("courseTime").innerHTML="Timing: 12:30 PM - 2:00 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Arrays, Linked List, Stack, Queue";
+document.getElementById("courseFee").innerHTML="Fee: ₹3600";
+}
+else if(course=="cn"){
+document.getElementById("courseName").innerHTML="Course: CPT214 - COMPUTER NETWORKS";
+document.getElementById("courseTime").innerHTML="Timing: 12:30 PM - 2:00 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Arrays, Linked List, Stack, Queue";
+document.getElementById("courseFee").innerHTML="Fee: ₹2900";
+}
+else if(course=="dsa"){
+document.getElementById("courseName").innerHTML="Course: CPT228 - BIG DATA ANALYTICS";
+document.getElementById("courseTime").innerHTML="Timing: 12:30 PM - 2:00 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Arrays, Linked List, Stack, Queue";
+document.getElementById("courseFee").innerHTML="Fee: ₹6600";
+}
+else if(course=="toc"){
+document.getElementById("courseName").innerHTML="Course: CPT215 - THEORY OF COMPUTATION";
+document.getElementById("courseTime").innerHTML="Timing: 12:30 PM - 2:00 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Arrays, Linked List, Stack, Queue";
+document.getElementById("courseFee").innerHTML="Fee: ₹2600";
+}
+else if(course=="se"){
+document.getElementById("courseName").innerHTML="Course: CPT216 - SOFTWARE ENGINEERING";
+document.getElementById("courseTime").innerHTML="Timing: 12:30 PM - 2:00 PM";
+document.getElementById("courseTeach").innerHTML="Teaching: Arrays, Linked List, Stack, Queue";
+document.getElementById("courseFee").innerHTML="Fee: ₹2700";
+}
+}
+
+
+function showFinalPage(){
+
+document.getElementById("finalPage").style.display = "block";
+
+/* Get values from form */
+
+let name = document.getElementById("name").value;
+let email = document.getElementById("email").value;
+let phone = document.getElementById("phone").value;
+let course = document.getElementById("course").value;
+let amount = document.getElementById("amount").value;
+
+/* Put values into table */
+
+document.getElementById("showName").innerText = name;
+document.getElementById("showEmail").innerText = email;
+document.getElementById("showPhone").innerText = phone;
+document.getElementById("showCourse").innerText = course;
+document.getElementById("showAmount").innerText = "₹ " + amount;
+
+}
+
+const courseFees = {
+"CPT111 - PRINCIPLES OF PROGRAMMING":2500,
+"CPT112 - DISCRETE STRUCTURES":2200,
+"CST131 - COMPUTER ORGANISATIONS":2600,
+"CPT113 - DATA STRUCTURES":2600,
+"CSE241 - FOUNDATION OF SOFTWARE ENGINEERING":2700,
+"MAT111 - LINEAR ALGEBRA":2300,
+"CPT211 - OBJECT ORIENTED PROGRAMMING":2800,
+"CPT212 - DATABASE SYSTEMS":3000,
+"CPT213 - OPERATING SYSTEMS":3100,
+"CPT214 - COMPUTER NETWORKS":2900,
+"CPT215 - THEORY OF COMPUTATION":2600,
+"CPT216 - SOFTWARE ENGINEERING":2700,
+"CPT217 - WEB TECHNOLOGY":2800,
+"CPT218 - MOBILE APPLICATION DEVELOPMENT":3000,
+"CPT219 - ARTIFICIAL INTELLIGENCE":3500,
+"CPT221 - MACHINE LEARNING":4000,
+"CPT222 - DATA MINING":3200,
+"CPT223 - CLOUD COMPUTING":3500,
+"CPT224 - CYBER SECURITY":3700,
+"CPT225 - DIGITAL IMAGE PROCESSING":3100,
+"CPT226 - COMPUTER GRAPHICS":3000,
+"CPT227 - HUMAN COMPUTER INTERACTION":2800,
+"CPT228 - BIG DATA ANALYTICS":3600,
+"CPT229 - INTERNET OF THINGS":3300,
+"CPT231 - ADVANCED DATABASE SYSTEMS":3500,
+"CPT232 - PARALLEL COMPUTING":3600,
+"CPT233 - DISTRIBUTED SYSTEMS":3400,
+"CPT234 - BLOCKCHAIN TECHNOLOGY":3900,
+"CPT235 - INFORMATION RETRIEVAL":3100,
+"CPT236 - SOFTWARE PROJECT MANAGEMENT":3000,
+"CPT237 - COMPUTER SECURITY":3500,
+"CPT238 - GAME DEVELOPMENT":4200,
+"CPT239 - EMBEDDED SYSTEMS":3700,
+"CPT241 - COMPILER DESIGN":3800,
+"CPT242 - NATURAL LANGUAGE PROCESSING":4200,
+"CPT243 - ROBOTICS":4500,
+"CPT244 - QUANTUM COMPUTING":4700,
+"CPT245 - ADVANCED ALGORITHMS":3900,
+"CPT246 - NETWORK SECURITY":3600,
+"CPT247 - DIGITAL FORENSICS":4000,
+"CPT248 - SOFTWARE TESTING AND QUALITY ASSURANCE":3200
+};
+function showFinalPage(){
+
+let table = document.getElementById("summaryTable");
+let total = 0;
+
+table.innerHTML = "";
+
+// loop registered courses
+registeredCourses.forEach(course=>{
+
+let fee = courseFees[course] || 2000;
+
+let row = `
+<tr>
+<td>${course}</td>
+<td>₹${fee}</td>
+</tr>
+`;
+
+table.innerHTML += row;
+
+total += fee;
+
+});
+
+document.getElementById("totalFee").innerText = "₹ " + total;
+
+// show page
+document.getElementById("finalPage").style.display="block";
+
+}
+</script>
+
+    </body>
+</html>

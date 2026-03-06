@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Course Registration System</title>
+<link rel="icon" type="image/ico" href="z-favicon.ico">
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    display:flex;
+    height:100vh;
+}
+
+/* LEFT SIDE */
+.left{
+    width:50%;
+    background:linear-gradient(135deg,#c31432,#240b36);
+    color:white;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.left img{
+    width:150px;
+    margin-bottom:20px;
+}
+
+.left h1{
+    font-size:42px;
+    font-weight:300;
+}
+
+/* RIGHT SIDE */
+.right{
+    width:50%;
+    background:url(https://media.licdn.com/dms/image/v2/D4D22AQFN2Bb-0uDH8g/feedshare-shrink_800/feedshare-shrink_800/0/1685968088859?e=2147483647&v=beta&t=wTGofWpiLjG152Q8JU8WKh1bKkRf7JY1jK0rx7CIyoI) no-repeat center center/cover;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:18px;  
+}
+.right::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0, 0, 0, 0.4); /* dark overlay */
+}
+
+.box{
+    width:500px;
+    height: 340px;
+    -webkit-backdrop-filter: blur(10px);
+backdrop-filter: blur(10px);
+    padding:35px;
+    border-radius:48px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+.tabs{
+    display:flex;
+    margin-bottom:25px;
+}
+
+.tabs button{
+    flex:1;
+    padding:14px;
+    border:none;
+    cursor:pointer;
+    font-size:20px;   /* bigger */
+    font-weight:bold;
+}
+
+.active{
+    background:#e67e22;
+    color:white;
+}
+
+.inactive{
+    background:#ddd;
+}
+
+.input-box{
+    margin-bottom:15px;
+}
+
+.input-box input{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-bottom:2px solid #ccc;
+    outline:none;
+    font-size:18px;   /* bigger */
+}
+
+.input-box input:focus{
+    border-bottom:2px solid #e67e22;
+}
+
+.role{
+    margin:10px 0;
+}
+
+.btn{
+    width:100%;
+    padding:14px;
+    background:#e67e22;
+    border:none;
+    color:white;
+    cursor:pointer;
+    border-radius:5px;
+    font-size:18px;   /* bigger */
+}
+
+.btn:hover{
+    background:#d35400;
+}
+
+.error{
+    color:red;
+    font-size:14px;
+    margin-bottom:10px;
+    text-align:center;
+}
+
+.hidden{
+    display:none;
+}
+
+</style>
+</head>
+
+<body>
+<!-- Left side -->
+<div class="left">
+    <img src="https://upload.wikimedia.org/wikipedia/en/c/c8/Maharshi_Dayanand_University_logo.png" alt="it's mdu bro">
+    <h1>Maharshi Dayanand University-Rohtak</h1>
+    <p>"(Student Course Registration System)"</p>
+</div>
+<!-- Right side -->
+<div class="right">
+<div class="box">
+
+    <div class="tabs">
+        <button id="loginTab" class="active" onclick="showLogin()">Login</button>
+        <button id="signupTab" class="inactive" onclick="showSignup()">Sign Up</button>
+    </div>
+
+    <div class="error" id="errorMsg"></div>
+
+    <!-- Login form -->
+    <div id="loginForm">
+        <div class="input-box">
+            <input type="text" id="loginID" placeholder="User ID">
+        </div>
+        <div class="input-box">
+            <input type="password" id="loginPass" placeholder="Password">
+        </div>
+
+        <button class="btn" onclick="login()">Sign In</button>
+    </div>
+
+    <!-- SIGNUP FORM -->
+    <div id="signupForm" class="hidden">
+        <div class="input-box">
+            <input type="text" id="signupID" placeholder="Create User ID">
+        </div>
+        <div class="input-box">
+            <input type="password" id="signupPass" placeholder="Create Password">
+        </div>
+
+        <button class="btn" onclick="signup()">Register</button>
+    </div>
+
+</div>
+</div>
+
+<script>
+
+// Switch Tabs
+function showLogin(){
+    document.getElementById("loginForm").classList.remove("hidden");
+    document.getElementById("signupForm").classList.add("hidden");
+
+    document.getElementById("loginTab").classList.add("active");
+    document.getElementById("loginTab").classList.remove("inactive");
+
+    document.getElementById("signupTab").classList.add("inactive");
+    document.getElementById("signupTab").classList.remove("active");
+}
+
+function showSignup(){
+    document.getElementById("signupForm").classList.remove("hidden");
+    document.getElementById("loginForm").classList.add("hidden");
+
+    document.getElementById("signupTab").classList.add("active");
+    document.getElementById("signupTab").classList.remove("inactive");
+
+    document.getElementById("loginTab").classList.add("inactive");
+    document.getElementById("loginTab").classList.remove("active");
+}
+
+// SIGN UP FUNCTION
+function signup(){
+
+    let id = document.getElementById("signupID").value.trim();
+    let pass = document.getElementById("signupPass").value.trim();
+    let error = document.getElementById("errorMsg");
+
+    error.innerHTML = "";
+
+    if(id === "" || pass === ""){
+        error.innerHTML = "Please fill all fields!";
+        return;
+    }
+
+    // Get existing users
+    let users = JSON.parse(localStorage.getItem("users")) || {};
+
+    // Check if user already exists
+    if(users[id]){
+        error.innerHTML = "User already exists!";
+        return;
+    }
+
+    // Save new user
+    users[id] = pass;
+    localStorage.setItem("users", JSON.stringify(users));
+
+    alert("Registration Successful! Now Login.");
+    showLogin();
+}
+
+// LOGIN FUNCTION
+function login(){
+
+    let id = document.getElementById("loginID").value.trim();
+    let pass = document.getElementById("loginPass").value.trim();
+    let error = document.getElementById("errorMsg");
+
+    error.innerHTML = "";
+
+    let users = JSON.parse(localStorage.getItem("users")) || {};
+
+    if(users[id] && users[id] === pass){
+        alert("Login Successful!");
+
+        // Save current user session
+        localStorage.setItem("currentUser", id);
+
+        // Redirect properly
+        window.location.href = "student_entry.html";
+    }
+    else{
+        error.innerHTML = "Invalid ID or Password!";
+    }
+}
+
+</script>
+
+</body>
+</html>
